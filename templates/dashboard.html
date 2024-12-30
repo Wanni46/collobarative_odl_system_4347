@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Dashboard-Style.css') }}">
+    <title>Dashboard</title>
+</head>
+<body data-user-role="{{ role }}">
+    <div class="dashboard-container">
+        <!-- Left Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <img src="{{ url_for('static', filename='css/pro.png') }}" alt="Logo" class="logo">
+                <p>Welcome</p>
+                <p> {{ session['full_name'] }}</p>
+            </div>
+            <ul>
+                {% if role == 'student' %}
+                <div class="sidebar">
+                    <ul>
+                        <li><a href="javascript:void(0)" class="tab-link" onclick="showTab('s-dashboard')"><i class="fas fa-th-large"></i> Dashboard</a></li>
+                        <li><a href="javascript:void(0)" class="tab-link" onclick="showTab('classes')"><i class="fas fa-book"></i> Classes</a></li>
+                        <li><a href="javascript:void(0)" class="tab-link" onclick="showTab('groups')"><i class="fas fa-users"></i> Groups</a></li>
+                        <li><a href="javascript:void(0)" class="tab-link" onclick="showTab('social-media')"><i class="fas fa-share-alt"></i> Social Media</a></li>
+                        <li><a href="javascript:void(0)" class="tab-link" onclick="showTab('grades')"><i class="fas fa-chart-bar"></i> Grades</a></li>
+                        <li><a href="javascript:void(0)" class="tab-link" onclick="showTab('downloads')"><i class="fas fa-cloud-download-alt"></i> Downloads</a></li>
+                        <li><a href="javascript:void(0)" class="tab-link" onclick="showTab('settings')"><i class="fas fa-cog"></i> Settings</a></li>
+                        <li><a href="javascript:void(0)" class="tab-link" onclick="showTab('trash')"><i class="fas fa-trash"></i> Trash</a></li>
+                        <li><a href="javascript:void(0)" class="tab-link" onclick="showTab('earn-badges')"><i class="fas fa-award"></i> Earn Badges</a></li>
+                        
+
+                    </ul>
+                </div>
+                
+
+                {% elif role == 'instructor' %}
+                    <li><a href="javascript:void(0)" class="tab-link" onclick="showTab('instructor-home')"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="javascript:void(0)" class="tab-link" onclick="showTab('instructor-study-groups')"><i class="fas fa-users"></i>Study Groups</a></li>
+                    <li><a href="javascript:void(0)" class="tab-link" onclick="showTab('instructor-workshops')"><i class="fas fa-chalkboard-teacher"></i> Workshops</a></li>
+                    <li><a href="javascript:void(0)" class="tab-link" onclick="showTab('instructor-messages')"><i class="fas fa-envelope"></i> Messages</a></li>
+                    
+                {% elif role == 'admin' %}
+                    <li><a href="javascript:void(0)" class="tab-link" onclick="showTab('admin-home')"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="javascript:void(0)" class="tab-link" onclick="showTab('admin-users')"><i class="fas fa-users"></i> Manage Users</a></li>
+                    <li><a href="javascript:void(0)" class="tab-link" onclick="showTab('admin-announcements')"><i class="fas fa-bullhorn"></i> Announcements</a></li>
+                {% endif %}
+            </ul>
+            <a href="/logout" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <div class="tabs-container">
+                {% if role == 'student' %}
+                <div id="s-dashboard" class="tab-content">
+                    <div class="main-content">
+                        <!-- Statistics Section -->
+                        <div class="statistics">
+                            <h3>Statistics</h3>
+                            <div class="progress-circle">
+                                <div class="circle">
+                                    <strong>75%</strong>
+                                </div>
+                            </div>
+                            <ul class="stat-details">
+                                <li>Attendance: 90%</li>
+                                <li>Tasks and Projects: 70%</li>
+                                <li>Quiz and Games: 85%</li>
+                            </ul>
+                        </div>
+                
+                        <!-- To-do List Section -->
+                        <div class="to-do-list">
+                            <h3>To-Do List</h3>
+                            <ul>
+                                <li>Quiz 14 - <span>Tuesday, 13 Aug 2024</span></li>
+                                <li>Push on GitHub - <span>Monday, 12 Aug 2024</span></li>
+                                <li>Redesign homepage - <span>Friday, 2 Aug 2024</span></li>
+                            </ul>
+                        </div>
+                
+                        <!-- Downloads Section -->
+                        <div class="downloads">
+                            <h3>Your Downloads</h3>
+                            <ul>
+                                <li>
+                                    <span>ReactJS-for-beginner.pdf</span>
+                                    <a href="#">Download</a>
+                                </li>
+                                <li>
+                                    <span>Database-MySQL.xls</span>
+                                    <a href="#">Download</a>
+                                </li>
+                                <li>
+                                    <span>Summary-of-php.docx</span>
+                                    <a href="#">Download</a>
+                                </li>
+                            </ul>
+                        </div>
+                
+                        <!-- Project Section -->
+                        <div class="project-progress">
+                            <h3>Introduction to Laravel 8.0</h3>
+                            <p>Due: 15 Aug 2024, 10:00 AM</p>
+                            <p>Progress: 72%</p>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 72%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                    <div id="student-study-groups" class="tab-content hidden">
+                        <h2>Study Groups</h2>
+                        <p>View and join study groups here.</p>
+                    </div>
+                    <div id="student-workshops" class="tab-content hidden">
+                        <h2>Workshops</h2>
+                        <p>Access details about upcoming workshops here.</p>
+                    </div>
+                    <div id="student-messages" class="tab-content hidden">
+                        <h2>Messages</h2>
+                        <p>Check your messages and communicate with peers.</p>
+                    </div>
+                {% elif role == 'instructor' %}
+                    <!-- Tab Contents -->
+                <div id="dashboard" class="tab-content hidden">
+                    <h2>Dashboard</h2>
+                    <p>Welcome to the Dashboard. Here you can navigate to all sections.</p>
+                </div>
+
+                <div id="classes" class="tab-content hidden">
+                    <h2>Classes</h2>
+                    <p>Find and manage your classes here.</p>
+                </div>
+
+                <div id="groups" class="tab-content hidden">
+                    <h2>Groups</h2>
+                    <p>Join and manage your groups.</p>
+                </div>
+
+            <div id="social-media" class="tab-content hidden">
+                <h2>Social Media</h2>
+                <p>Stay connected with your peers on social media.</p>
+            </div>
+
+            <div id="grades" class="tab-content hidden">
+                <h2>Grades</h2>
+                <p>View your academic performance and grades here.</p>
+            </div>
+
+            <div id="downloads" class="tab-content hidden">
+                <h2>Downloads</h2>
+                <p>Access your downloadable materials.</p>
+            </div>
+
+            <div id="settings" class="tab-content hidden">
+                <h2>Settings</h2>
+                <p>Manage your account settings here.</p>
+            </div>
+
+            <div id="trash" class="tab-content hidden">
+                <h2>Trash</h2>
+                <p>Review deleted items and restore if necessary.</p>
+            </div>
+
+            <div id="earn-badges" class="tab-content hidden">
+                <h2>Earn Badges</h2>
+                <p>Track and earn badges for your achievements.</p>
+            </div>
+
+            <div id="logout" class="tab-content hidden">
+                <h2>Log Out</h2>
+                <p>Are you sure you want to log out?</p>
+            </div>
+
+                {% elif role == 'admin' %}
+                    <div id="admin-home" class="tab-content hidden">
+                        <h2>Welcome to the Admin Dashboard</h2>
+                        <p>Manage users and announcements for the platform.</p>
+                    </div>
+                    <div id="admin-users" class="tab-content hidden">
+                        <h2>Manage Users</h2>
+                        <p>Add, edit, or remove platform users.</p>
+                    
+                        <!-- Form to Add New Users -->
+                        <form id="add-user-form" method="POST" action="/dashboard">
+                            <h3>Add New User</h3>
+                            <label for="username">Username:</label>
+                            <input type="text" id="username" name="username" required>
+                    
+                            <label for="password">Password:</label>
+                            <input type="password" id="password" name="password" required>
+                    
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" required>
+                    
+                            <label for="role">Role:</label>
+                            <select id="role" name="role" required>
+                                <option value="admin">Admin</option>
+                                <option value="instructor">Instructor</option>
+                                <option value="student">Student</option>
+                            </select>
+                    
+                            <label for="first_name">First Name:</label>
+                            <input type="text" id="first_name" name="first_name" required>
+                    
+                            <label for="last_name">Last Name:</label>
+                            <input type="text" id="last_name" name="last_name" required>
+                    
+                            <button type="submit">Add User</button>
+                        </form>
+                    
+                        <!-- Table to Display Registered Users -->
+                        <h3>Registered Users</h3>
+                        <table id="users-table">
+                            <thead>
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Date Joined</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Example Rows (Dynamically Generated by Flask) -->
+                                <!-- Flask will replace these rows with data from the database -->
+                                {% for user in users %}
+                                <tr>
+                                    <td>{{ user.user_id }}</td>
+                                    <td>{{ user.username }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td>{{ user.role }}</td>
+                                    <td>{{ user.first_name }}</td>
+                                    <td>{{ user.last_name }}</td>
+                                    <td>{{ user.date_joined }}</td>
+                                    <td>
+                                        <form method="POST" action="/delete_user" style="display:inline;">
+                                            <input type="hidden" name="user_id" value="{{ user.user_id }}">
+                                            <button type="submit">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div id="admin-announcements" class="tab-content hidden">
+                        <h2>Announcements</h2>
+                        <p>Create and manage platform announcements.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <style>
+        /* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #0f172a;
+    color: #ffffff;
+}
+
+/* Dashboard Container */
+#s-dashboard {
+    padding: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 12px;
+}
+
+/* Header Section */
+.s-dashboard-header {
+    grid-column: span 2;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.s-dashboard-header h2 {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.s-dashboard-header p {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Main Content Sections */
+.main-content > div {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+/* Statistics Section */
+.statistics h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.progress-circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.progress-circle .circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: conic-gradient(#4caf50 75%, #ffffff20 0%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.progress-circle .circle strong {
+    font-size: 24px;
+    color: #ffffff;
+}
+
+.stat-details {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.stat-details li {
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+/* To-Do List Section */
+.to-do-list h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.to-do-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.to-do-list li {
+    font-size: 14px;
+    margin: 8px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.to-do-list li span {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Downloads Section */
+.downloads h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.downloads ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.downloads li {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin: 10px 0;
+}
+
+.downloads li a {
+    color: #4caf50;
+    text-decoration: none;
+}
+
+.downloads li a:hover {
+    text-decoration: underline;
+}
+
+/* Project Progress Section */
+.project-progress h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.project-progress p {
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+.progress-bar .progress {
+    height: 100%;
+    background: #4caf50;
+}
+
+    </style>
+
+    <script src="{{ url_for('static', filename='js/Dashboard-Script.js') }}"></script>
+</body>
+</html>
